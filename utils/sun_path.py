@@ -3,7 +3,8 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from pvlib import solarposition
-
+import pytz
+from datetime import datetime
 
 #%%
 def equation_of_time(times):
@@ -11,6 +12,24 @@ def equation_of_time(times):
     b = 2 * np.pi * (times.dayofyear - 81) / 364
     eot = 9.87 * np.sin(2 * b) - 7.53 * np.cos(b) - 1.5 * np.sin(b)
     return pd.Series(eot, index=times, name="equation_of_time")
+
+
+def obtener_zonas_horarias_gmt():
+    import pytz
+    from datetime import datetime
+
+    zonas = {}
+    for zona in pytz.all_timezones:
+        try:
+            ahora = datetime.now(pytz.timezone(zona))
+            offset = ahora.strftime('%z')  # Ej: "-0600"
+            offset_formateado = f"{offset[:3]}:{offset[3:]}"  # -> "-06:00"
+            zonas[zona] = f"{zona} (GMT{offset_formateado})"
+        except Exception:
+            continue  # Si alguna zona lanza error, la ignoramos
+
+    return zonas
+
 
 
 

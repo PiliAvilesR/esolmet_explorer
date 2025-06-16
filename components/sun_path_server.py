@@ -6,19 +6,19 @@ def sun_path_server(input, output, session):
     @reactive.calc
     def datos():
         usar_hora_solar = input.horario() == "solar"
-        return calcular_posicion_solar(input.lat(), input.lon(), tz=input.tz(), usar_hora_solar=usar_hora_solar)
+        return calcular_posicion_solar(input.lat(), input.lon(), tz=input.timezone(), usar_hora_solar=usar_hora_solar)
 
     @output
     @render_widget
     def grafico_cartesiano():
         if input.graficas() in ("cartesiana", "ambas"):
-            return figura_cartesiana(datos(), input.lat(), input.lon(), tz=input.tz(), usar_hora_solar=input.horario() == "solar")
+            return figura_cartesiana(datos(), input.lat(), input.lon(), tz=input.timezone(), usar_hora_solar=input.horario() == "solar")
 
     @output
     @render_widget
     def grafico_polar():
         if input.graficas() in ("polar", "ambas"):
-            return figura_estereografica(datos(), input.lat(), input.lon(), tz=input.tz(), usar_hora_solar=input.horario() == "solar")
+            return figura_estereografica(datos(), input.lat(), input.lon(), tz=input.timezone(), usar_hora_solar=input.horario() == "solar")
 
     @output
     @render.ui
@@ -51,19 +51,19 @@ def server(input, output, session):
     @reactive.calc
     def datos():
         usar_hora_solar = input.horario() == "solar"
-        return calcular_posicion_solar(input.lat(), input.lon(), tz=input.tz(), usar_hora_solar=usar_hora_solar)
+        return calcular_posicion_solar(input.lat(), input.lon(), tz=input.timezone(), usar_hora_solar=usar_hora_solar)
 
     @output
     @render_widget
     def grafico_cartesiano():
         if input.graficas() in ("cartesiana", "ambas"):
-            return figura_cartesiana(datos(), input.lat(), input.lon(), tz=input.tz(), usar_hora_solar=input.horario() == "solar")
+            return figura_cartesiana(datos(), input.lat(), input.lon(), tz=input.timezone(), usar_hora_solar=input.horario() == "solar")
 
     @output
     @render_widget
     def grafico_polar():
         if input.graficas() in ("polar", "ambas"):
-            return figura_estereografica(datos(), input.lat(), input.lon(), tz=input.tz(), usar_hora_solar=input.horario() == "solar")
+            return figura_estereografica(datos(), input.lat(), input.lon(), tz=input.timezone(), usar_hora_solar=input.horario() == "solar")
 
     @output
     @render.ui

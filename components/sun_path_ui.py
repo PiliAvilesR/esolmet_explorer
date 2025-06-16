@@ -1,21 +1,20 @@
 from shiny import App, ui, render, reactive
 from shinywidgets import output_widget, render_widget
+from utils.sun_path import obtener_zonas_horarias_gmt
 
-
-zonas_horarias = {
-    "America/Mexico_City": "CDMX",
-    "America/Chihuahua": "Chihuahua",
-    "America/Hermosillo": "Hermosillo ",
-    "America/Cancun": "Cancún",
-}
+zonas_horarias = obtener_zonas_horarias_gmt()
 
 sun_path_ui = ui.page_fluid(
     ui.h2("Trayectoria solar interactiva"),
     ui.layout_sidebar(
         ui.sidebar(
-            ui.input_numeric("lat", "Latitud:", value=18.85),
-            ui.input_numeric("lon", "Longitud:", value=-99.22),
-            ui.input_select("tz", "Zona horaria:", zonas_horarias),
+            ui.div(
+            ui.input_numeric("lat", "Latitud:", value=18.85,update_on='blur'),
+            ui.tags.small('Norte=Positivo, Sur=Negativo',style='color:gray;')),
+            ui.div(
+            ui.input_numeric("lon", "Longitud:", value=-99.22,update_on='blur'),
+            ui.tags.small('Este=Positivo, Oeste=Negativo',style='color: gray;')),
+            ui.input_select("timezone", "Zona horaria:", zonas_horarias, selected="America/Mexico_City"),
             ui.input_radio_buttons("horario", "Horario:", {
                 "civil": "Horario estándar (civil)",
                 "solar": "Horario solar verdadero"
